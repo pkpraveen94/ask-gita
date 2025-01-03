@@ -1,76 +1,47 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useSpeechSynthesis } from 'react-speech-kit';
-import './App.css';
+.App {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
 
-const App = () => {
-  const [question, setQuestion] = useState('');
-  const [guidanceAnswer, setGuidanceAnswer] = useState(null);
-  const { speak } = useSpeechSynthesis();
+input {
+  background-color: #f9f9f9;
+  color: black;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 10px 0;
+}
 
-  const handleInputChange = (event) => {
-    setQuestion(event.target.value);
-  };
+button {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
 
-  const handleSubmit = async () => {
-    if (question) {
-      try {
-        const response = await axios.post('https://2owawgyt71.execute-api.us-east-1.amazonaws.com/dev/blog-generation', {
-          blog_topic: question,
-        });
+button:hover {
+  background-color: #0056b3;
+}
 
-        if (response.status === 200) {
-          const data = response.data;
-          const answer = data.places_content || 'No guidance found for your question, but keep seeking!';
-          setGuidanceAnswer(answer);
-        } else {
-          alert(`Failed to retrieve guidance. Server responded with status code: ${response.status}`);
-        }
-      } catch (error) {
-        console.error('Error fetching guidance:', error);
-        alert('An error occurred while fetching guidance.');
-      }
-    } else {
-      alert('Please enter a question before seeking guidance.');
-    }
-  };
+h1 {
+  font-size: 2.5em;
+}
 
-  const handleSpeak = () => {
-    if (guidanceAnswer) {
-      speak({ text: guidanceAnswer });
-    }
-  };
+h2 {
+  font-size: 1.5em;
+}
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>🙏 Ask Gita - Spiritual Insights</h1>
-        <p>🙏 Dive deep into the wisdom of the Bhagavad Gita. Ask your questions and uncover spiritual insights to guide your journey.</p>
-      </header>
+footer {
+  margin-top: 20px;
+}
 
-      <div className="input-section">
-        <input
-          type="text"
-          value={question}
-          onChange={handleInputChange}
-          placeholder="What spiritual question is on your mind today?"
-        />
-        <button onClick={handleSubmit}>Ask Gita for Guidance</button>
-      </div>
+input[type="text"] {
+  width: 80%;
+  max-width: 600px;
+}
 
-      {guidanceAnswer && (
-        <div className="answer-section">
-          <h2>Here's the wisdom we found for you:</h2>
-          <p>{guidanceAnswer}</p>
-          <button onClick={handleSpeak}>🎧 Hear the Guidance</button>
-        </div>
-      )}
-
-      <footer>
-        <p>🙌 Powered by Ask Gita | Spiritual Guidance for Everyone 🙌</p>
-      </footer>
-    </div>
-  );
-};
-
-export default App;
+.answer-section {
+  margin-top: 20px;
+}
